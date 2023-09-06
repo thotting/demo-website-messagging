@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Display</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; 
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto; 
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        function getConfig() {
+            return fetch('/api/getConfig')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Environment vars could not be retrieved');
+                    }
+                    return response.json();
+                });
+        }
+    
+        getConfig().then(config => {
+            (function (g, e, n, es, ys) {
+                g['_genesysJs'] = e;
+                g[e] = g[e] || function () {
+                    (g[e].q = g[e].q || []).push(arguments)
+                };
+                g[e].t = 1 * new Date();
+                g[e].c = es;
+                ys = document.createElement('script');
+                ys.async = 1;
+                ys.src = 'https://apps.' + config.GCRegion + '/genesys-bootstrap/genesys.min.js';
+                ys.charset = 'utf-8';
+                document.head.appendChild(ys);
+            })(window, 'Genesys', null, {
+                environment: config.GCEnvironment,
+                deploymentId: config.GCDeploymentId
+            });
+        }).catch(err => {
+            console.error('Error fetching config:', err);
+        });
+    </script>
+</head>
+
+<body>
+    <img src="Screenshot_20230831-093146.png" alt="Uploaded Image">
+</body>
+
+</html>

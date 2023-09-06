@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; 
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        #phoneButton {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        function getConfig() {
+            return fetch('/api/getConfig')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Environment vars could not be retrieved');
+                    }
+                    return response.json();
+                });
+        }
+
+        getConfig().then(config => {
+            const phoneButton = document.getElementById('phoneButton');
+            phoneButton.href = 'tel:' + config.GCDDI;
+        }).catch(err => {
+            console.error('Error fetching config:', err);
+        });
+    </script>
+</head>
+
+<body>
+    <img src="Screenshot_20230831-093146.png" alt="Uploaded Image">
+    <a id="phoneButton" href="#" title="Call">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+</body>
+
+</html>
